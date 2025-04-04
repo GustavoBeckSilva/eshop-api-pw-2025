@@ -14,7 +14,7 @@ const addProdutoDB = async (body) => {
     try {
         const { nome, descricao, quantidade_estoque, ativo, valor, data_cadastro, categoria } = body;
         const results = await pool.query(`INSERT INTO produtos (nome, descricao, quantidade_estoque, ativo, valor, data_cadastro, categoria)
-            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,[nome, descricao, quantidade_estoque, ativo, valor, data_cadastro, categoria, id]);
+            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,[nome, descricao, quantidade_estoque, ativo, valor, data_cadastro, categoria]);
         const produto = results.rows[0];
         return new Produto(produto.codigo, produto.nome, produto.descricao, produto.quantidade_estoque, produto.ativo, produto.valor, produto.data_cadastro, produto.categoria);
     } catch(err){
@@ -25,7 +25,7 @@ const addProdutoDB = async (body) => {
 const updateProdutoDB = async (body) => {
     try {
         const { nome, descricao, quantidade_estoque, ativo, valor, data_cadastro, categoria , codigo} = body;
-        const results = await pool.query(`UPDATE produtos SET nome = $1, descricao = $2, quantidade_estoque = $3, ativo = $4, valor = $5, data_cadastro = $6, categoria = $7 WHERE codigo = $8 RETURNING *`, [nome, descricao, quantidade_estoque, ativo, valor, data_cadastro, categoria, id]);
+        const results = await pool.query(`UPDATE produtos SET nome = $1, descricao = $2, quantidade_estoque = $3, ativo = $4, valor = $5, data_cadastro = $6, categoria = $7 WHERE codigo = $8 RETURNING *`, [nome, descricao, quantidade_estoque, ativo, valor, data_cadastro, categoria, codigo]);
 
         if (results.rowCount == 0){
             throw `Nenhum registro encontrado com o código ${codigo}
